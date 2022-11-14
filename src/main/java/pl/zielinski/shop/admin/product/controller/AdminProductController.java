@@ -35,6 +35,11 @@ public class AdminProductController {
         return adminProductService.updateProduct(mapAdminProduct(adminProductDto, id));
     }
 
+    @DeleteMapping ("/admin/products/{id}")
+    public void deleteProduct(@PathVariable("id") Long id ) {
+        adminProductService.deleteProduct(id);
+    }
+
     private AdminProduct mapAdminProduct(AdminProductDto adminProductDto, Long id) {
         return AdminProduct.builder()
                 .id(id)
