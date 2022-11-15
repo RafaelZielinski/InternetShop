@@ -8,6 +8,8 @@ import pl.zielinski.shop.admin.product.controller.dto.AdminProductDto;
 import pl.zielinski.shop.admin.product.model.AdminProduct;
 import pl.zielinski.shop.admin.product.service.AdminProductService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 public class AdminProductController {
@@ -26,12 +28,12 @@ public class AdminProductController {
     }
 
     @PostMapping("/admin/products")
-    public AdminProduct createProduct(@RequestBody AdminProductDto adminProductDto) {
+    public AdminProduct createProduct(@RequestBody @Valid AdminProductDto adminProductDto) {
         return adminProductService.createProduct(mapAdminProduct(adminProductDto, EMPTY_ID));
     }
 
     @PutMapping ("/admin/products/{id}")
-    public AdminProduct updateProduct(@RequestBody AdminProductDto adminProductDto, @PathVariable("id") Long id ) {
+    public AdminProduct updateProduct(@RequestBody @Valid AdminProductDto adminProductDto, @PathVariable("id") Long id ) {
         return adminProductService.updateProduct(mapAdminProduct(adminProductDto, id));
     }
 
