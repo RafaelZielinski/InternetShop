@@ -1,14 +1,25 @@
 package pl.zielinski.shop.admin.product.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResourceLoader;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.zielinski.shop.admin.product.controller.dto.AdminProductDto;
+import pl.zielinski.shop.admin.product.controller.dto.UploadResponse;
 import pl.zielinski.shop.admin.product.model.AdminProduct;
+import pl.zielinski.shop.admin.product.service.AdminProductImageService;
 import pl.zielinski.shop.admin.product.service.AdminProductService;
-
 import javax.validation.Valid;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -16,6 +27,7 @@ public class AdminProductController {
 
     private static final Long EMPTY_ID = null;
     private final AdminProductService adminProductService;
+    private final AdminProductImageService adminProductImageService;
 
     @GetMapping("/admin/products")
     public Page<AdminProduct> getProducts(Pageable pageable) {
@@ -42,6 +54,23 @@ public class AdminProductController {
         adminProductService.deleteProduct(id);
     }
 
+    @PostMapping("/admin/products/upload-image")
+    public UploadResponse uploadImage(@RequestParam("file") MultipartFile multipartFile) {
+        try(InputStream inputStream = multipartFile.getInputStream()) {
+            String savedFilename = adminProductImageService.uploadImage(multipartFile.getOriginalFilename(), inputStream);
+             return new UploadResponse(savedFilename);
+        } catch (IOException exception) {
+            throw new RuntimeException("coś poszło źle podczas wgrywanie pliku", exception)  ;
+        }
+    }
+
+    @GetMapping("/data/productImage/{filename}")
+    public ResponseEntity<Resource> serveFiles(@PathVariable(name = "filename") String fileName) throws IOException {
+       Resource file = adminProductImageService.serverFiles(fileName);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_TYPE, Files.probeContentType(Path.of(fileName)))
+                .body(file);
+    }
     private AdminProduct mapAdminProduct(AdminProductDto adminProductDto, Long id) {
         return AdminProduct.builder()
                 .id(id)
@@ -50,6 +79,7 @@ public class AdminProductController {
                 .category(adminProductDto.getCategory())
                 .price(adminProductDto.getPrice())
                 .currency(adminProductDto.getCurrency())
+                .image(adminProductDto.getImage())
                 .build();
     }
 
