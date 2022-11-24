@@ -10,8 +10,7 @@ class UploadedFilesNameUtils {
         Slugify slg = new Slugify();
         String changedName = slg
                 .withCustomReplacement("_","-")
-                .slugify(name)
-                ;
+                .slugify(name);
         return changedName + "." + FilenameUtils.getExtension(filename);
     }
 }

@@ -3,7 +3,6 @@ package pl.zielinski.shop.product.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +20,7 @@ public class Product {
     private String name;
     private String category;
     private String description;
+    private String fullDescription;
     private BigDecimal price;
     private String currency;
     private String image;

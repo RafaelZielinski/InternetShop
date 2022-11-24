@@ -3,7 +3,6 @@ package pl.zielinski.shop.admin.product.controller.dto;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 import pl.zielinski.shop.admin.product.model.AdminProductCurrency;
-
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.*;
@@ -20,6 +19,7 @@ public class AdminProductDto {
     @NotBlank
     @Length(min = 4)
     private String description;
+    private String fullDescription;
     @Min(0)
     @NotNull
     private BigDecimal price;

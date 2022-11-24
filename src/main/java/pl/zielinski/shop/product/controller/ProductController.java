@@ -12,7 +12,6 @@ import pl.zielinski.shop.product.model.Product;
 import pl.zielinski.shop.product.service.ProductService;
 
 import javax.validation.constraints.Pattern;
-
 @RequiredArgsConstructor
 @RestController
 @Validated
