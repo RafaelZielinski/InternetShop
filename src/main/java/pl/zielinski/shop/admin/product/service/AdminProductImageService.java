@@ -19,6 +19,7 @@ public class AdminProductImageService {
 
     @Value("${app.uploadDir}")
     private String uploadDir;
+
     public String uploadImage(String filename, InputStream inputStream) {
         String newFileName = UploadedFilesNameUtils.slugifyFileName(filename);
         newFileName = ExistingFileRenameUtils.renameIfExists(Path.of(uploadDir), newFileName);
