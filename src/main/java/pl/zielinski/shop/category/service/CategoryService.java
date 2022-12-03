@@ -2,12 +2,14 @@ package pl.zielinski.shop.category.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.zielinski.shop.category.model.Category;
+import pl.zielinski.shop.category.model.CategoryProductsDto;
 import pl.zielinski.shop.category.repository.CategoryRepository;
-import pl.zielinski.shop.product.model.CategoryProductsDto;
+import pl.zielinski.shop.product.controller.dto.ProductListDto;
 import pl.zielinski.shop.product.model.Product;
 import pl.zielinski.shop.product.repository.ProductRepository;
 
@@ -25,10 +27,21 @@ public class CategoryService {
     }
 
     @Transactional(readOnly = true)
-    public CategoryProductsDto getCategoriesWithProducts(String slug, Pageable pageable) {
+    public pl.zielinski.shop.category.model.CategoryProductsDto getCategoriesWithProducts(String slug, Pageable pageable) {
         Category category = categoryRepository.findBySlug(slug);
         Page<Product> page = productRepository.findByCategoryId(category.getId(), pageable);
-        return new CategoryProductsDto(category, page);
+        List<ProductListDto> productListDtos = page.getContent().stream()
+                .map(product -> ProductListDto.builder()
+                        .id(product.getId())
+                        .name(product.getName())
+                        .description(product.getDescription())
+                        .price(product.getPrice())
+                        .currency(product.getCurrency())
+                        .image(product.getImage())
+                        .slug(product.getSlug())
+                        .build())
+                .toList();
+        return new CategoryProductsDto(category, new PageImpl<>(productListDtos, pageable, page.getTotalElements()));
 
     }
 
