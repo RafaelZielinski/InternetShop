@@ -1,9 +1,8 @@
-package pl.zielinski.shop.product.model;
+package pl.zielinski.shop.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.zielinski.shop.review.model.Review;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

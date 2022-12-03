@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.zielinski.shop.category.model.Category;
-import pl.zielinski.shop.category.model.CategoryProductsDto;
+import pl.zielinski.shop.common.model.Category;
+import pl.zielinski.shop.category.dto.CategoryProductsDto;
 import pl.zielinski.shop.category.service.CategoryService;
 
 import javax.validation.constraints.Pattern;

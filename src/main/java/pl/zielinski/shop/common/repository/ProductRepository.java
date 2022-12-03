@@ -1,11 +1,9 @@
-package pl.zielinski.shop.product.repository;
+package pl.zielinski.shop.common.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import pl.zielinski.shop.category.model.Category;
-import pl.zielinski.shop.product.model.Product;
+import pl.zielinski.shop.common.model.Product;
 
 import java.util.Optional;
 

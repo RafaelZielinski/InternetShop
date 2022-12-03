@@ -1,4 +1,4 @@
-package pl.zielinski.shop.category.model;
+package pl.zielinski.shop.common.model;
 
 import lombok.Getter;
 import javax.persistence.*;

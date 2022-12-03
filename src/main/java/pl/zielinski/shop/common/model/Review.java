@@ -1,4 +1,4 @@
-package pl.zielinski.shop.review.model;
+package pl.zielinski.shop.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

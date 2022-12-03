@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import pl.zielinski.shop.admin.product.controller.dto.UploadResponse;
+import pl.zielinski.shop.admin.common.utils.SlugifyUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +13,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static pl.zielinski.shop.admin.common.utils.SlugifyUtils.slugifyFileName;
+
 @Service
 public class AdminProductImageService {
 
@@ -21,7 +22,7 @@ public class AdminProductImageService {
     private String uploadDir;
 
     public String uploadImage(String filename, InputStream inputStream) {
-        String newFileName = UploadedFilesNameUtils.slugifyFileName(filename);
+        String newFileName = slugifyFileName(filename);
         newFileName = ExistingFileRenameUtils.renameIfExists(Path.of(uploadDir), newFileName);
         Path filePath = Paths.get(uploadDir).resolve(newFileName);
 

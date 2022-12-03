@@ -1,4 +1,4 @@
-package pl.zielinski.shop.product.controller.dto;
+package pl.zielinski.shop.common.dto;
 
 import lombok.Builder;
 import lombok.Getter;
