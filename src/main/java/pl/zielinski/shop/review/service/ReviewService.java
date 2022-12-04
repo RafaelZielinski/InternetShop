@@ -3,7 +3,7 @@ package pl.zielinski.shop.review.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.zielinski.shop.common.model.Review;
-import pl.zielinski.shop.review.repository.ReviewRepository;
+import pl.zielinski.shop.common.repository.ReviewRepository;
 
 @Service
 @RequiredArgsConstructor
