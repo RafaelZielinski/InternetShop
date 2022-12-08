@@ -30,7 +30,6 @@ public class Cart {
         if (items == null) {
             items = new ArrayList<>();
         }
-
         items.stream()
                 .filter(item -> Objects.equals(cartItem.getProduct().getId(), item.getProduct().getId()))
                 .findFirst()
