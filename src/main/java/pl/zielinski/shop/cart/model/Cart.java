@@ -35,7 +35,7 @@ public class Cart {
                 .findFirst()
                 .ifPresentOrElse(
                         item -> item.setQuantity(item.getQuantity() + 1)
-                        , () -> items.add(cartItem));
+                        ,() -> items.add(cartItem));
 
     }
 }
