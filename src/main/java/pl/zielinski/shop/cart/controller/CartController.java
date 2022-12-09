@@ -1,13 +1,16 @@
 package pl.zielinski.shop.cart.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.zielinski.shop.cart.controller.dto.CartSummaryDto;
 import pl.zielinski.shop.cart.controller.mapper.CartMapper;
-import pl.zielinski.shop.cart.model.Cart;
 import pl.zielinski.shop.cart.model.dto.CartProductDto;
 import pl.zielinski.shop.cart.service.CartService;
-
 import java.util.List;
 
 @RestController
