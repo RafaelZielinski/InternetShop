@@ -1,15 +1,14 @@
 package pl.zielinski.shop.cart.service;
 
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import pl.zielinski.shop.cart.model.Cart;
+import pl.zielinski.shop.common.model.Cart;
 import pl.zielinski.shop.cart.model.dto.CartProductDto;
-import pl.zielinski.shop.cart.repository.CartRepository;
+import pl.zielinski.shop.common.repository.CartRepository;
 import pl.zielinski.shop.common.model.Product;
 import pl.zielinski.shop.common.repository.ProductRepository;
 

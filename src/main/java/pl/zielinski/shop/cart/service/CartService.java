@@ -3,10 +3,10 @@ package pl.zielinski.shop.cart.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.zielinski.shop.cart.model.Cart;
-import pl.zielinski.shop.cart.model.CartItem;
+import pl.zielinski.shop.common.model.Cart;
+import pl.zielinski.shop.common.model.CartItem;
 import pl.zielinski.shop.cart.model.dto.CartProductDto;
-import pl.zielinski.shop.cart.repository.CartRepository;
+import pl.zielinski.shop.common.repository.CartRepository;
 import pl.zielinski.shop.common.model.Product;
 import pl.zielinski.shop.common.repository.ProductRepository;
 

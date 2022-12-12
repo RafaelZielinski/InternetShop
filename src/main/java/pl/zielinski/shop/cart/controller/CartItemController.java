@@ -2,7 +2,6 @@ package pl.zielinski.shop.cart.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import pl.zielinski.shop.cart.repository.CartItemRepository;
 import pl.zielinski.shop.cart.service.CartItemService;
 
 @RestController

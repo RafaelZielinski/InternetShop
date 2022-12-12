@@ -1,4 +1,4 @@
-package pl.zielinski.shop.cart.model;
+package pl.zielinski.shop.common.model;
 
 import lombok.*;
 import pl.zielinski.shop.common.model.Product;

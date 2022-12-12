@@ -1,4 +1,4 @@
-package pl.zielinski.shop.cart.model;
+package pl.zielinski.shop.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
