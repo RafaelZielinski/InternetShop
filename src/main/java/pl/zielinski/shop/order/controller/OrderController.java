@@ -11,6 +11,7 @@ import pl.zielinski.shop.order.model.dto.InitOrder;
 import pl.zielinski.shop.order.model.dto.OrderDto;
 import pl.zielinski.shop.order.model.dto.OrderSummary;
 import pl.zielinski.shop.order.service.OrderService;
+import pl.zielinski.shop.order.service.PaymentService;
 import pl.zielinski.shop.order.service.ShipmentService;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ public class OrderController {
 
     private final ShipmentService shipmentService;
     private final OrderService orderService;
+    private final PaymentService paymentService;
 
     @PostMapping()
     public OrderSummary placeOrder(@RequestBody @Valid OrderDto orderDto) {
@@ -33,6 +35,7 @@ public class OrderController {
     public InitOrder initData() {
         return InitOrder.builder()
                 .shipments(shipmentService.getShipments())
+                .payment(paymentService.getPayments())
                 .build();
     }
 

@@ -43,4 +43,6 @@ public class Order {
     private String city;
     private String email;
     private String phone;
+    @OneToOne
+    private Payment payment;
 }

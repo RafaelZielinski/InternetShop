@@ -10,11 +10,13 @@ import pl.zielinski.shop.common.repository.CartRepository;
 import pl.zielinski.shop.order.model.Order;
 import pl.zielinski.shop.order.model.OrderRow;
 import pl.zielinski.shop.order.model.OrderStatus;
+import pl.zielinski.shop.order.model.Payment;
 import pl.zielinski.shop.order.model.Shipment;
 import pl.zielinski.shop.order.model.dto.OrderDto;
 import pl.zielinski.shop.order.model.dto.OrderSummary;
 import pl.zielinski.shop.order.repository.OrderRepository;
 import pl.zielinski.shop.order.repository.OrderRowRepository;
+import pl.zielinski.shop.order.repository.PaymentRepository;
 import pl.zielinski.shop.order.repository.ShipmentRepository;
 
 import java.math.BigDecimal;
@@ -29,12 +31,14 @@ public class OrderService {
     private final OrderRowRepository orderRowRepository;
     private final CartItemRepository cartItemRepository;
     private final ShipmentRepository shipmentRepository;
+    private final PaymentRepository paymentRepository;
 
     @Transactional
     public OrderSummary placeOrder(OrderDto orderDto) {
 
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
+        Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
         Order order = Order.builder()
                 .firstname(orderDto.getFirstname())
                 .lastname(orderDto.getLastname())
@@ -46,6 +50,7 @@ public class OrderService {
                 .placeDate(LocalDateTime.now())
                 .orderStatus(OrderStatus.NEW)
                 .grossValue(calculateGrossValue(cart.getItems(), shipment))
+                .payment(payment)
                 .build();
 
 
@@ -63,6 +68,7 @@ public class OrderService {
                 .placeDate(newOrder.getPlaceDate())
                 .status(newOrder.getOrderStatus())
                 .grossValue(newOrder.getGrossValue())
+                .payment(payment)
         .build();
     }
 
