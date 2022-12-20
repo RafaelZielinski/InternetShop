@@ -9,7 +9,6 @@ import pl.zielinski.shop.cart.model.dto.CartProductDto;
 import pl.zielinski.shop.common.repository.CartRepository;
 import pl.zielinski.shop.common.model.Product;
 import pl.zielinski.shop.common.repository.ProductRepository;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,16 +20,15 @@ public class CartService {
 
     public Cart getCart(Long id) {
         return cartRepository.findById(id).orElseThrow();
-
     }
 
     @Transactional
     public Cart addProductToCart(Long id, CartProductDto cartProductDto) {
-        Cart cart = getInitioalizedCart(id);
+        Cart cart = getInitializedCart(id);
         cart.addProduct(CartItem.builder()
                 .quantity(cartProductDto.quantity())
                 .product(getProduct(cartProductDto.productId()))
-                        .cartId(cart.getId())
+                .cartId(cart.getId())
                 .build());
         return cart;
     }
@@ -39,12 +37,15 @@ public class CartService {
             return productRepository.findById(productId).orElseThrow();
     }
 
-    private Cart getInitioalizedCart(Long id) {
+    private Cart getInitializedCart(Long id) {
         if(id == null || id <= 0) {
-            return cartRepository.save(Cart.builder().created(LocalDateTime.now()).build());
+            return saveNewCart();
         }
+        return cartRepository.findById(id).orElseGet(this::saveNewCart);
+    }
 
-        return cartRepository.findById(id).orElseThrow();
+    private Cart saveNewCart() {
+        return cartRepository.save(Cart.builder().created(LocalDateTime.now()).build());
     }
 
     @Transactional

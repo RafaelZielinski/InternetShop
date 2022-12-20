@@ -15,7 +15,6 @@ public class CartItemService {
     }
 
     public Long countItemInCart(Long cartId) {
-
         return cartItemRepository.countByCartId(cartId);
     }
 }
