@@ -1,7 +1,6 @@
 package pl.zielinski.shop.order.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +12,6 @@ import pl.zielinski.shop.order.model.dto.OrderSummary;
 import pl.zielinski.shop.order.service.OrderService;
 import pl.zielinski.shop.order.service.PaymentService;
 import pl.zielinski.shop.order.service.ShipmentService;
-
 import javax.validation.Valid;
 
 
@@ -38,5 +36,4 @@ public class OrderController {
                 .payment(paymentService.getPayments())
                 .build();
     }
-
 }
