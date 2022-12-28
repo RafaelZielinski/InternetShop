@@ -2,6 +2,7 @@ package pl.zielinski.shop.admin.order.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.zielinski.shop.admin.order.repository.AdminOrderLogRepository;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -41,4 +42,7 @@ public class AdminOrder {
     private String phone;
     @OneToOne
     private AdminPayment payment;
+    @OneToMany
+    @JoinColumn(name = "orderId")
+    private List<AdminOrderLog> orderLogs;
 }
