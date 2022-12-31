@@ -5,9 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.zielinski.shop.admin.order.model.AdminOrder;
 import pl.zielinski.shop.admin.order.model.AdminOrderStatus;
 import pl.zielinski.shop.admin.order.repository.AdminOrderRepository;
-import pl.zielinski.shop.order.repository.OrderRepository;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
