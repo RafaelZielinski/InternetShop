@@ -42,10 +42,17 @@ public class AdminOrderStatsService {
                         () -> new TreeMap<Integer, AdminOrderStatsValue>()
                 ));
 
+        List<Long> ordersList = result.values().stream().map(v ->
+                v.orders()).toList();
+        List<BigDecimal> salesList = result.values().stream().map(v ->
+                v.sales()).toList();
+
        return AdminOrderStats.builder()
                .label(result.keySet().stream().toList())
                .sale(result.values().stream().map(o -> o.sales).toList())
                .order(result.values().stream().map(o -> o.orders).toList())
+               .ordersCount(ordersList.stream().reduce(Long::sum).orElse(0L))
+               .salesSum(salesList.stream().reduce(BigDecimal::add).orElse(BigDecimal.ZERO))
                .build();
     }
 
