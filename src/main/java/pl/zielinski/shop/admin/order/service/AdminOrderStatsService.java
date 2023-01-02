@@ -42,10 +42,8 @@ public class AdminOrderStatsService {
                         () -> new TreeMap<Integer, AdminOrderStatsValue>()
                 ));
 
-        List<Long> ordersList = result.values().stream().map(v ->
-                v.orders()).toList();
-        List<BigDecimal> salesList = result.values().stream().map(v ->
-                v.sales()).toList();
+        List<Long> ordersList = result.values().stream().map(AdminOrderStatsValue::orders).toList();
+        List<BigDecimal> salesList = result.values().stream().map(AdminOrderStatsValue::sales).toList();
 
        return AdminOrderStats.builder()
                .label(result.keySet().stream().toList())
@@ -66,6 +64,5 @@ public class AdminOrderStatsService {
                                 (o, o2) -> null
                 );
     }
-
     private record AdminOrderStatsValue(Integer day, BigDecimal sales, Long orders){}
 }
