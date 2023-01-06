@@ -35,14 +35,14 @@ public class OrderService {
     private final EmailClientService emailClientService;
 
     @Transactional
-    public OrderSummary placeOrder(OrderDto orderDto) {
+    public OrderSummary placeOrder(OrderDto orderDto, Long userId) {
 
         Cart cart = cartRepository.findById(orderDto.getCartId()).orElseThrow();
         Shipment shipment = shipmentRepository.findById(orderDto.getShipmentId()).orElseThrow();
         Payment payment = paymentRepository.findById(orderDto.getPaymentId()).orElseThrow();
-        Order order = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment));
+        Order order = orderRepository.save(createNewOrder(orderDto, cart, shipment, payment, userId));
         saveOrderRows(cart, order.getId(), shipment);
-        clearOrderCart(orderDto, order);
+        clearOrderCart(orderDto);
         sendConfirmEmail(order);
         return createOrderSummary(payment, order);
     }
@@ -53,9 +53,10 @@ public class OrderService {
                         "Twoje zamówienie zostało przyjęte", createEmailMessage(order));
     }
 
-    private void clearOrderCart(OrderDto orderDto, Order order) {
-        cartRepository.deleteCartById(orderDto.getCartId());
+    private void clearOrderCart(OrderDto orderDto) {
+
         cartItemRepository.deleteByCartId(orderDto.getCartId());
+        cartRepository.deleteCartById(orderDto.getCartId());
     }
 
     private void saveOrderRows(Cart cart, Long orderId, Shipment shipment) {

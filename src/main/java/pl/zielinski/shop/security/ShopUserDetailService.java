@@ -31,7 +31,5 @@ public class ShopUserDetailService implements UserDetailsService {
 
         shopUserDetails.setId(user.getId());
         return shopUserDetails;
-
-
     }
 }
