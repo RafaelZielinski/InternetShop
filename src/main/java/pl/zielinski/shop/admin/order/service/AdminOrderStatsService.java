@@ -3,9 +3,10 @@ package pl.zielinski.shop.admin.order.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.zielinski.shop.admin.order.model.AdminOrder;
-import pl.zielinski.shop.admin.order.model.AdminOrderStatus;
 import pl.zielinski.shop.admin.order.model.dto.AdminOrderStats;
 import pl.zielinski.shop.admin.order.repository.AdminOrderRepository;
+import pl.zielinski.shop.common.dto.OrderStatus;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,7 +28,7 @@ public class AdminOrderStatsService {
         List<AdminOrder> orders = orderRepository.findAllByPlaceDateIsBetweenAndOrderStatus(
                 from,
                 to,
-                AdminOrderStatus.COMPLETED
+                OrderStatus.COMPLETED
         );
         TreeMap<Integer, AdminOrderStatsValue> result =
                 IntStream.rangeClosed(from.getDayOfMonth(), to.getDayOfMonth())

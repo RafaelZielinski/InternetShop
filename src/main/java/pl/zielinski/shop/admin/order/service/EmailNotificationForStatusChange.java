@@ -3,7 +3,7 @@ package pl.zielinski.shop.admin.order.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.zielinski.shop.admin.order.model.AdminOrder;
-import pl.zielinski.shop.admin.order.model.AdminOrderStatus;
+import pl.zielinski.shop.common.dto.OrderStatus;
 import pl.zielinski.shop.common.mail.EmailClientService;
 
 import static pl.zielinski.shop.admin.order.service.AdminOrderEmailMessage.createCompletedEmailMessage;
@@ -16,17 +16,17 @@ class EmailNotificationForStatusChange {
 
     private final EmailClientService emailClientService;
 
-   public void sendEmailNotification(AdminOrderStatus newStatus, AdminOrder adminOrder) {
+   public void sendEmailNotification(OrderStatus newStatus, AdminOrder adminOrder) {
         // statusy PROCESSING, COMPLETED, REFUND
-        if(newStatus == AdminOrderStatus.PROCESSING) {
+        if(newStatus == OrderStatus.PROCESSING) {
             sendEmail(adminOrder.getEmail(),
                     "Zamówienie " + adminOrder.getId() + " zmieniło status na: " + newStatus.getValue(),
                     createProcessingEmailMessage(adminOrder.getId(), newStatus) );
-        } else if(newStatus == AdminOrderStatus.REFUND){
+        } else if(newStatus ==OrderStatus.REFUND){
             sendEmail(adminOrder.getEmail(),
                     "Zamówienie " + adminOrder.getId() + " zostało zrealizowane"  ,
                     createCompletedEmailMessage(adminOrder.getId(), newStatus)) ;
-        } else if(newStatus == AdminOrderStatus.COMPLETED){
+        } else if(newStatus == OrderStatus.COMPLETED){
             createRefundEmailMessage(adminOrder.getId(), newStatus) ;
         }
     }

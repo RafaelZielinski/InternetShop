@@ -11,11 +11,16 @@ import pl.zielinski.shop.order.model.Order;
 import pl.zielinski.shop.order.model.Payment;
 import pl.zielinski.shop.order.model.Shipment;
 import pl.zielinski.shop.order.model.dto.OrderDto;
+import pl.zielinski.shop.order.model.dto.OrderListDto;
 import pl.zielinski.shop.order.model.dto.OrderSummary;
 import pl.zielinski.shop.order.repository.OrderRepository;
 import pl.zielinski.shop.order.repository.OrderRowRepository;
 import pl.zielinski.shop.order.repository.PaymentRepository;
 import pl.zielinski.shop.order.repository.ShipmentRepository;
+import pl.zielinski.shop.order.service.mapper.OrderDtoMapper;
+
+import java.util.List;
+
 import static pl.zielinski.shop.order.service.mapper.OrderMapper.createNewOrder;
 import static pl.zielinski.shop.order.service.mapper.OrderMapper.createOrderSummary;
 import static pl.zielinski.shop.order.service.mapper.OrderMapper.mapToOrderRow;
@@ -75,4 +80,10 @@ public class OrderService {
                 .peek(orderRowRepository::save)
                 .toList();
     }
+
+    public List<OrderListDto> getOrdersForCustomer(Long userId) {
+        return OrderDtoMapper.mapToOrderListDto(orderRepository.findByUserId(userId));
+    }
+
+
 }

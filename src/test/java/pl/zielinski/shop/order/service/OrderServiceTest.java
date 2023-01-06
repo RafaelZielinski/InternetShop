@@ -12,7 +12,7 @@ import pl.zielinski.shop.common.model.CartItem;
 import pl.zielinski.shop.common.model.Product;
 import pl.zielinski.shop.common.repository.CartItemRepository;
 import pl.zielinski.shop.common.repository.CartRepository;
-import pl.zielinski.shop.order.model.OrderStatus;
+import pl.zielinski.shop.common.dto.OrderStatus;
 import pl.zielinski.shop.order.model.Payment;
 import pl.zielinski.shop.order.model.PaymentType;
 import pl.zielinski.shop.order.model.Shipment;

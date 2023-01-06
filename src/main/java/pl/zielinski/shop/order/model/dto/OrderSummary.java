@@ -3,7 +3,7 @@ package pl.zielinski.shop.order.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import pl.zielinski.shop.order.model.OrderStatus;
+import pl.zielinski.shop.common.dto.OrderStatus;
 import pl.zielinski.shop.order.model.Payment;
 
 import java.math.BigDecimal;

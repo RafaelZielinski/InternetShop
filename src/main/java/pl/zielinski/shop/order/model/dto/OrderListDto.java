@@ -1,6 +1,6 @@
-package pl.zielinski.shop.admin.order.controller.dto;
+package pl.zielinski.shop.order.model.dto;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import pl.zielinski.shop.common.dto.OrderStatus;
 
@@ -8,10 +8,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
-@Builder
-public class AdminOrderDto {
+@AllArgsConstructor
+public class OrderListDto {
     private Long id;
     private LocalDateTime placeDate;
-    private OrderStatus orderStatus;
+    private String orderStatus;
     private BigDecimal grossValue;
 }

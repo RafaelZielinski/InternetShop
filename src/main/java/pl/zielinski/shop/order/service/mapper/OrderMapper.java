@@ -4,7 +4,7 @@ import pl.zielinski.shop.common.model.Cart;
 import pl.zielinski.shop.common.model.CartItem;
 import pl.zielinski.shop.order.model.Order;
 import pl.zielinski.shop.order.model.OrderRow;
-import pl.zielinski.shop.order.model.OrderStatus;
+import pl.zielinski.shop.common.dto.OrderStatus;
 import pl.zielinski.shop.order.model.Payment;
 import pl.zielinski.shop.order.model.Shipment;
 import pl.zielinski.shop.order.model.dto.OrderDto;

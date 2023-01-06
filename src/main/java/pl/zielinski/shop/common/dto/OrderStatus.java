@@ -1,6 +1,6 @@
-package pl.zielinski.shop.admin.order.model;
+package pl.zielinski.shop.common.dto;
 
-public enum AdminOrderStatus {
+public enum OrderStatus {
     NEW("Nowe"),
     COMPLETED("Zrealizowane"),
     PAID("Opłacone"),
@@ -11,7 +11,7 @@ public enum AdminOrderStatus {
 
     private String value;
 
-    AdminOrderStatus(String value) {
+    OrderStatus(String value) {
         this.value = value;
     }
 
