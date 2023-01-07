@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.zielinski.shop.order.model.Order;
 import pl.zielinski.shop.order.model.dto.InitOrder;
 import pl.zielinski.shop.order.model.dto.OrderDto;
 import pl.zielinski.shop.order.model.dto.OrderListDto;
@@ -35,7 +34,6 @@ public class OrderController {
 
     @GetMapping("/initData")
     public InitOrder initData() {
-
         return InitOrder.builder()
                 .shipments(shipmentService.getShipments())
                 .payment(paymentService.getPayments())
@@ -43,8 +41,8 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderListDto> getOrders(@AuthenticationPrincipal Long userId) {
-        if(userId == null) {
+    public List<OrderListDto> getOrders(@AuthenticationPrincipal Long userId){
+        if(userId == null){
             throw new IllegalArgumentException("Brak użytkownika");
         }
         return orderService.getOrdersForCustomer(userId);

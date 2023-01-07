@@ -60,14 +60,15 @@ public class LoginController {
         userRepository.save(User.builder()
                 .username(registerCredentials.getUsername())
                 .password("{bcrypt}" + new BCryptPasswordEncoder().encode(registerCredentials.getPassword()))
-                        .enabled(true)
-                        .authorities(List.of(UserRole.ROLE_CUSTOMER))
+                .enabled(true)
+                .authorities(List.of(UserRole.ROLE_CUSTOMER))
                 .build());
         return (authenticate(registerCredentials.username, registerCredentials.password));
     }
 
     private Token authenticate(String username, String password) {
         User user = userRepository.findByUsername(username).orElseThrow();
+
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getId(), password)
         );
