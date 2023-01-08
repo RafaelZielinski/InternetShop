@@ -2,9 +2,7 @@ package pl.zielinski.shop.admin.order.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.zielinski.shop.admin.order.repository.AdminOrderLogRepository;
 import pl.zielinski.shop.common.dto.OrderStatus;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;

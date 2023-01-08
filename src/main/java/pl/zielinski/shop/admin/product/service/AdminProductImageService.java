@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import pl.zielinski.shop.admin.common.utils.SlugifyUtils;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

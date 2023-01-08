@@ -18,7 +18,6 @@ public class AdminReviewController {
     @GetMapping
     public List<AdminReview> getReviews(){
         return adminReviewService.getReviews();
-
     }
 
     @PutMapping("/{id}/moderate")

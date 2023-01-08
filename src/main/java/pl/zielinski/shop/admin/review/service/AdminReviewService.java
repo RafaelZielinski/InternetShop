@@ -14,7 +14,6 @@ import java.util.List;
 public class AdminReviewService {
     private final AdminReviewRepository adminReviewRepository;
 
-
     public List<AdminReview> getReviews() {
         return adminReviewRepository.findAll();
     }
@@ -26,6 +25,5 @@ public class AdminReviewService {
     @Transactional
     public void moderate(Long id) {
         adminReviewRepository.moderate(id);
-
     }
 }
