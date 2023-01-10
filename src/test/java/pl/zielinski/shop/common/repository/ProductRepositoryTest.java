@@ -7,121 +7,87 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
+import pl.zielinski.shop.category.repository.CategoryRepository;
+import pl.zielinski.shop.common.model.Category;
 import pl.zielinski.shop.common.model.Product;
-
-import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ProductRepositoryTest {
-
+class ProductRepositoryTest implements Products, Categories {
     @Autowired
     private ProductRepository under;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
+
+
+
+    @Transactional
     @Test
-    void it_Should_Find_One_By_Slug() {
-        //Given
-        Product product1 = Product.builder()
-                .id(1L)
-                .name("Szampon")
-                .categoryId(1L)
-                .description("Fryzjerstwo")
-                .fullDescription("Haistyle advanced")
-                .price(BigDecimal.valueOf(20.00))
-                .currency("PLN")
-                .image("szampon")
-                .slug("hair")
-                .build();
+    void itShouldFindZeroBySlug() {
+        //given
+
+        categoryRepository.saveAll(List.of(category1(), category2(), category3(), category4(), category5()));
+        System.out.println(categoryRepository.count());
+        System.out.println(category1().toString());
+        System.out.println(category2().toString());
+        System.out.println(category3().toString());
+        System.out.println(category4().toString());
+        System.out.println(category5().toString());
+        System.out.println(categoryRepository.count());
+        under.saveAll(List.of(product1(), product2(), product3(), product4(), product5()));
+
         //When
-        under.save(product1);
+        Optional<Product> listOfProducts = under.findBySlug("slug");
+
+        System.out.println();
+        System.out.println(product1().toString());
+        System.out.println(product2().toString());
+        System.out.println(product3().toString());
+        System.out.println(product4().toString());
+        System.out.println(product5().toString());
         //Then
-        Optional<Product> listOfProducts = under.findBySlug("hair");
-        assertThat(listOfProducts)
-                .isPresent()
-                .hasValueSatisfying(c -> {
-                    assertThat(c.getSlug()).isEqualTo("hair");
-                });
+        assertThat(listOfProducts).isEmpty();
     }
 
     @Test
-    void it_Should_Find_Two_CategoryId_By_Slug() {
-        Product product1 = Product.builder()
-                .id(1L)
-                .name("Szampon")
-                .categoryId(1L)
-                .description("Fryzjerstwo")
-                .fullDescription("Haistyle advanced")
-                .price(BigDecimal.valueOf(20.00))
-                .currency("PLN")
-                .image("szampon")
-                .slug("bread")
-                .build();
-        Product product2 = Product.builder()
-                .id(1L)
-                .name("Szampon2")
-                .categoryId(1L)
-                .description("Fryzjerstwo2")
-                .fullDescription("Haistyle advanced2")
-                .price(BigDecimal.valueOf(20.00))
-                .currency("PLN")
-                .image("szampon2")
-                .slug("skin")
-                .build();
+    void itShouldFindOneProductBySlug() {
+        //given
+        categoryRepository.saveAll(List.of(category1(), category2(), category3(), category4(), category5()));
+        under.saveAll(List.of(product1(), product2(), product3(), product4(), product5()));
         //When
-        under.save(product1);
-        under.save(product2);
+        Optional<Product> listOfProducts = under.findBySlug("oil");
         //Then
-        Optional<Product> listOfProducts = under.findBySlug("hair");
-        assertThat(listOfProducts)
-                .isEmpty();
+        assertThat(listOfProducts).hasValueSatisfying(c -> {
+            assertThat(c.getSlug()).isEqualTo("oil");
+        });
     }
-
     @Test
-    void it_Should_Find_One_CategoryId() {
-        Product product1 = Product.builder()
-                .id(3L)
-                .name("Szampon")
-                .categoryId(1L)
-                .description("Fryzjerstwo")
-                .fullDescription("Haistyle advanced")
-                .price(BigDecimal.valueOf(20.00))
-                .currency("PLN")
-                .image("szampon")
-                .slug("bread")
-                .build();
-
+    void itShouldFindZeroProductsByCategoryId() {
+        //given
+        categoryRepository.saveAll(List.of(category1(), category2(), category3(), category4(), category5()));
+        under.saveAll(List.of(product1(), product2(), product3(), product4(), product5()));
         //When
-        under.save(product1);
+        Page<Product> list = under.findByCategoryId(2L, Pageable.ofSize(5));
         //Then
-        Page<Product> list= under.findByCategoryId(1L, Pageable.ofSize(5));
-        assertThat(list.getTotalElements()).isEqualTo(1L);
-    }
-
-    @Test
-    void it_Should_Find_Zero_By_CategoryId() {
-        Product product1 = Product.builder()
-                .id(4L)
-                .name("Szampon")
-                .categoryId(1L)
-                .description("Fryzjerstwo")
-                .fullDescription("Haistyle advanced")
-                .price(BigDecimal.valueOf(20.00))
-                .currency("PLN")
-                .image("szampon")
-                .slug("bread")
-                .build();
-
-        //When
-        under.save(product1);
-        //Then
-        Page<Product> list= under.findByCategoryId(2L, Pageable.ofSize(5));
         assertThat(list).isEmpty();
     }
 
+    @Test
+    void itShouldFindFiveByCategoryId() {
+        //given
+        categoryRepository.saveAll(List.of(category1(), category2(), category3(), category4(), category5()));
+        under.saveAll(List.of(product1(), product2(), product3(), product4(), product5()));
+        Product product5 = product5();
+        //When
+        Page<Product> list = under.findByCategoryId(1L, Pageable.ofSize(5));
+        //Then
+        assertThat(list.getTotalElements()).isEqualTo(5L);
+    }
 
 }
