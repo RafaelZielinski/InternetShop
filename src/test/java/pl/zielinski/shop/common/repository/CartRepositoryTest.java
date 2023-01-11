@@ -27,12 +27,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CartRepositoryTest {
 
+    @Mock
+    private CartItemRepository cartItemRepository;
+
+
     @Autowired
     @InjectMocks
     private CartRepository under;
 
-    @Mock
-    private CartItemRepository cartItemRepository;
 
     Clock clock;
     String instantExpected;
@@ -41,7 +43,7 @@ class CartRepositoryTest {
     @BeforeEach
     void setUp() {
        clock = Clock.fixed(Instant.parse("2023-01-10T10:15:30.00Z"), ZoneId.of("UTC"));
-         instantExpected = "2023-01-10T10:15:30Z";
+       instantExpected = "2023-01-10T10:15:30Z";
     }
 
     @Test

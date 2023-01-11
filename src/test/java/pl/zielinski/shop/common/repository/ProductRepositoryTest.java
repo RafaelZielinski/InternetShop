@@ -1,5 +1,6 @@
 package pl.zielinski.shop.common.repository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -7,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.transaction.annotation.Transactional;
 import pl.zielinski.shop.category.repository.CategoryRepository;
 import pl.zielinski.shop.common.model.Category;
@@ -17,40 +20,23 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
+@Sql({"/initial_data_categories.sql"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ProductRepositoryTest implements Products, Categories {
+class ProductRepositoryTest implements Products{
+
     @Autowired
     private ProductRepository under;
-    @Autowired
-    private CategoryRepository categoryRepository;
 
+    @BeforeEach
+    void setUp() {
+        under.saveAll(List.of(product1(), product2(), product3(), product4(), product5()));
+    }
 
-
-
-    @Transactional
     @Test
     void itShouldFindZeroBySlug() {
         //given
-
-        categoryRepository.saveAll(List.of(category1(), category2(), category3(), category4(), category5()));
-        System.out.println(categoryRepository.count());
-        System.out.println(category1().toString());
-        System.out.println(category2().toString());
-        System.out.println(category3().toString());
-        System.out.println(category4().toString());
-        System.out.println(category5().toString());
-        System.out.println(categoryRepository.count());
-        under.saveAll(List.of(product1(), product2(), product3(), product4(), product5()));
-
         //When
         Optional<Product> listOfProducts = under.findBySlug("slug");
-
-        System.out.println();
-        System.out.println(product1().toString());
-        System.out.println(product2().toString());
-        System.out.println(product3().toString());
-        System.out.println(product4().toString());
-        System.out.println(product5().toString());
         //Then
         assertThat(listOfProducts).isEmpty();
     }
@@ -58,8 +44,6 @@ class ProductRepositoryTest implements Products, Categories {
     @Test
     void itShouldFindOneProductBySlug() {
         //given
-        categoryRepository.saveAll(List.of(category1(), category2(), category3(), category4(), category5()));
-        under.saveAll(List.of(product1(), product2(), product3(), product4(), product5()));
         //When
         Optional<Product> listOfProducts = under.findBySlug("oil");
         //Then
@@ -70,24 +54,20 @@ class ProductRepositoryTest implements Products, Categories {
     @Test
     void itShouldFindZeroProductsByCategoryId() {
         //given
-        categoryRepository.saveAll(List.of(category1(), category2(), category3(), category4(), category5()));
-        under.saveAll(List.of(product1(), product2(), product3(), product4(), product5()));
         //When
-        Page<Product> list = under.findByCategoryId(2L, Pageable.ofSize(5));
+        Page<Product> list = under.findByCategoryId(5L, Pageable.ofSize(5));
         //Then
         assertThat(list).isEmpty();
     }
 
     @Test
-    void itShouldFindFiveByCategoryId() {
+    void itShouldFindTwoProductsByCategoryId() {
         //given
-        categoryRepository.saveAll(List.of(category1(), category2(), category3(), category4(), category5()));
-        under.saveAll(List.of(product1(), product2(), product3(), product4(), product5()));
         Product product5 = product5();
         //When
         Page<Product> list = under.findByCategoryId(1L, Pageable.ofSize(5));
         //Then
-        assertThat(list.getTotalElements()).isEqualTo(5L);
+        assertThat(list.getTotalElements()).isEqualTo(2L);
     }
 
 }
