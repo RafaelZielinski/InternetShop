@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ActiveProfiles("test")
-@Sql({"/initial_data_categories.sql"})
+@Sql({"/scripts_sql/initial_data_categories.sql"})
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ProductRepositoryTest implements Products{
 

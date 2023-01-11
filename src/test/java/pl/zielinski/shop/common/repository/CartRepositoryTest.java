@@ -27,14 +27,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CartRepositoryTest {
 
-    @Mock
-    private CartItemRepository cartItemRepository;
-
-
     @Autowired
-    @InjectMocks
     private CartRepository under;
-
 
     Clock clock;
     String instantExpected;
@@ -47,17 +41,56 @@ class CartRepositoryTest {
     }
 
     @Test
-    void findByCreatedLessThan() {
-        Cart cart1 = new Cart(1L,
-                LocalDateTime.now(clock),
-                List.of(new CartItem(1L, 20,
-                        new Product(1L, "Ser", 1L,"Diary", "Good Diary", BigDecimal.valueOf(20.00), "PLN", "cheese", "diary" ),
-                            1L)));
+    void itShouldFindOneCartByCreatedBeforeDate() {
+        Cart cart1 = Cart.builder()
+                .id(1L)
+                .created(LocalDateTime.now(clock))
+                .build();
         //given
         under.save(cart1);
-        List<Cart> list = under.findByCreatedLessThan(LocalDateTime.now(clock).minusNanos(1));
+        List<Cart> list = under.findByCreatedLessThan(LocalDateTime.now(clock).plusSeconds(1));
         //when
         assertThat(list).hasSize(1);
+        //then
+    }
+
+    @Test
+    void itShouldFindTwoCartsByCreatedBeforeDate() {
+        Cart cart1 = Cart.builder()
+                .id(1L)
+                .created(LocalDateTime.now(clock))
+                .build();
+
+        Cart cart2 = Cart.builder()
+                .id(2L)
+                .created(LocalDateTime.now(clock))
+                .build();
+        //given
+        under.save(cart1);
+        under.save(cart2);
+        List<Cart> list = under.findByCreatedLessThan(LocalDateTime.now(clock).plusSeconds(1));
+        //when
+        assertThat(list).hasSize(2);
+        //then
+    }
+
+    @Test
+    void itShouldNotFindAnyCartsByCreatedBeforeDate() {
+        Cart cart1 = Cart.builder()
+                .id(1L)
+                .created(LocalDateTime.now(clock).plusDays(1))
+                .build();
+
+        Cart cart2 = Cart.builder()
+                .id(2L)
+                .created(LocalDateTime.now(clock).plusDays(1))
+                .build();
+        //given
+        under.save(cart1);
+        under.save(cart2);
+        List<Cart> list = under.findByCreatedLessThan(LocalDateTime.now(clock).plusSeconds(1));
+        //when
+        assertThat(list).isEmpty();
         //then
     }
 }

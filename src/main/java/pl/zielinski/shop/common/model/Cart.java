@@ -35,6 +35,5 @@ public class Cart {
                 .ifPresentOrElse(
                         item -> item.setQuantity(item.getQuantity() + 1)
                         ,() -> items.add(cartItem));
-
     }
 }
