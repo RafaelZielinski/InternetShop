@@ -61,7 +61,7 @@ public class OrderService {
     private void clearOrderCart(OrderDto orderDto) {
 
         cartItemRepository.deleteByCartId(orderDto.getCartId());
-        cartRepository.deleteCartById(orderDto.getCartId());
+        cartRepository.deleteById(orderDto.getCartId());
     }
 
     private void saveOrderRows(Cart cart, Long orderId, Shipment shipment) {

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 import pl.zielinski.shop.common.model.Cart;
 import pl.zielinski.shop.common.model.CartItem;
 import pl.zielinski.shop.common.model.Product;
@@ -22,7 +23,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-@DataJpaTest
+@DataJpaTest(
+        properties = {
+        "spring.jpa.properties.javax.persistence.validation.mode=none"
+        }
+)
+@Sql({"/scripts_sql/initial_data_carts.sql"})
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CartRepositoryTest {
@@ -77,12 +83,12 @@ class CartRepositoryTest {
     @Test
     void itShouldNotFindAnyCartsByCreatedBeforeDate() {
         Cart cart1 = Cart.builder()
-                .id(1L)
+                .id(6L)
                 .created(LocalDateTime.now(clock).plusDays(1))
                 .build();
 
         Cart cart2 = Cart.builder()
-                .id(2L)
+                .id(7L)
                 .created(LocalDateTime.now(clock).plusDays(1))
                 .build();
         //given
@@ -93,4 +99,34 @@ class CartRepositoryTest {
         assertThat(list).isEmpty();
         //then
     }
+
+    @Test
+    void itShouldDeleteAllCarts() {
+        //given
+        Cart cart1 = under.findById(1L).orElseThrow();
+        Cart cart2 = under.findById(2L).orElseThrow();
+        Cart cart3 = under.findById(3L).orElseThrow();
+        Cart cart4 = under.findById(4L).orElseThrow();
+        Cart cart5 = under.findById(5L).orElseThrow();
+        assertThat(under.findAll()).hasSize(5);
+        //when
+        under.deleteAllByIdIn(List.of(cart1.getId(), cart2.getId(), cart3.getId(), cart4.getId(), cart5.getId()));
+        //then
+        assertThat(under.findAll()).isEmpty();
+    }
+
+    @Test
+    void itShouldNotDeleteAllCarts() {
+        //given
+        Cart cart1 = under.findById(1L).orElseThrow();
+
+        assertThat(under.findAll()).hasSize(5);
+        //when
+        under.deleteAllByIdIn(List.of(cart1.getId()));
+        //then
+        assertThat(under.findAll()).hasSize(4);
+
+    }
+
+
 }
