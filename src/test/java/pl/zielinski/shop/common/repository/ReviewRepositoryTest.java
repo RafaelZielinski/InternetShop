@@ -49,7 +49,7 @@ class ReviewRepositoryTest implements Reviews{
     }
 
     @Test
-    void it_Should_Find_Zero_Reviews_By_Product_Id_And_Moderated_True() {
+    void itShouldFindTwoReviewsByProductIdAndModeratedTrue() {
         //given
         Review review1 = review1();
         Review review2 = review2();
