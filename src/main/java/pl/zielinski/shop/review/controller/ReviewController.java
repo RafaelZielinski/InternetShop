@@ -25,7 +25,6 @@ public class ReviewController {
                 .productId(reviewDto.productId())
                 .build());
     }
-
     private String cleanContent(String text) {
         return Jsoup.clean(text, Safelist.none());
     }

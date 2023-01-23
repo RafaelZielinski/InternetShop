@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser
 @ActiveProfiles(profiles = "test")
 class ReviewControllerIntegrationTest {
 
@@ -45,7 +44,7 @@ class ReviewControllerIntegrationTest {
         jo.put("content", "Cool product");
         jo.put("productId", "1");
         //when
-        final MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/review")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jo.toString()))
                 .andDo(print())
@@ -62,7 +61,7 @@ class ReviewControllerIntegrationTest {
     void shouldNotAddOneReview() throws Exception {
         //given
         //when
-        final MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/review")
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/review")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().is(400))
