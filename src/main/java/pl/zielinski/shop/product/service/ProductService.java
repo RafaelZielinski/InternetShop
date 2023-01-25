@@ -10,6 +10,7 @@ import pl.zielinski.shop.common.model.Product;
 import pl.zielinski.shop.common.model.Review;
 import pl.zielinski.shop.common.repository.ProductRepository;
 import pl.zielinski.shop.common.repository.ReviewRepository;
+import pl.zielinski.shop.exception.NoSuchElementFoundException;
 import pl.zielinski.shop.product.service.dto.ProductDto;
 import pl.zielinski.shop.product.service.dto.ReviewDto;
 import java.util.List;
@@ -26,7 +27,10 @@ public class ProductService {
     }
     @Transactional(readOnly = true)
     public ProductDto getProductsBySlug(String slug) {
-        Product product = productRepository.findBySlug(slug).orElseThrow();
+        Product product = productRepository.findBySlug(slug).orElseThrow(
+                () -> {
+                    throw new NoSuchElementFoundException("No value present");
+                });
         List<Review> reviews = reviewRepository.findAllByProductIdAndModerated(product.getId(), true);
         return mapToProductDto(product, reviews);
     }
